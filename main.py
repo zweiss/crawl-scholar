@@ -1,6 +1,9 @@
+import sys
+
 from bs4 import BeautifulSoup
 import requests
 import json
+import os
 import lxml
 
 # This code retrieves documents from google scholar using pre-defined search queries
@@ -114,5 +117,8 @@ print(len(data))
 # We could also directly save them as CSV but I generally prefer JSON so I wanted to have my raw data dump in JSON
 # Go to to_csv.py to get a CSV file out of it
 # P.S.: note how I use the current_survey variable as folder, make sure to delete this if this is not what you want
-with open(current_survey+"-json/"+cur_search_term.replace(" ", "_")+".json", 'w') as instr:
+outdir = current_survey+"-json/"
+if not os.path.exists(outdir):
+    os.makedirs(outdir)
+with open(outdir+cur_search_term.replace(" ", "_")+".json", 'w') as instr:
     instr.write(json.dumps(data, indent=2, ensure_ascii=False))
